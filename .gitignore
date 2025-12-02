@@ -1,0 +1,44 @@
+## OS / Editor
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+
+## Python cache / build
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+build/
+
+## Environments
+.venv/
+venv/
+env/
+.env
+.env.*.local
+
+## Logs / runtime
+*.log
+logs/
+
+## Jupyter / notebooks
+.ipynb_checkpoints/
+
+## Node / frontend (if added later)
+node_modules/
+*.tsbuildinfo
+
+## Local tooling
+.cursor/
+.DS_Store?
+
+
