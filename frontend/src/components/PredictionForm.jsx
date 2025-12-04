@@ -48,6 +48,105 @@ export default function PredictionForm() {
                                 required
                             />
                         </div>
+
+
+                        <div>
+                            <label className = 'block text-sm font-medium text-gray-700 mb-2'>
+                                Smoker
+                            </label>
+                            <select 
+                                name = 'smoker'
+                                value = {formData.smoker}
+                                onChange = {handleChange}
+                                className = 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+                            >
+                                <option value = 'True'>True</option>
+                                <option value = 'False'>False</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label className = 'block text-sm font-medium text-gray-700 mb-2'>
+                                Weight(kg)
+                            </label>
+                            <input
+                                type ='number'
+                                name = 'weight'
+                                value = {formData.weight}
+                                onChange = {handleChange}
+                                min = '25'
+                                max = '150'
+                                className = 'w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+                                placeholder = 'Enter your weight (40-150)'
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label className = 'block text-sm font-medium text-gray-700 mb-2'>
+                                Height(m)
+                            </label>
+                            <input 
+                                type = 'number'
+                                name = 'height'
+                                value = {formData.height}
+                                onChange = {handleChange}
+                                min = '1.2'
+                                max = '2.5'
+                                className = 'w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+                                placeholder = 'Enter your height (1.2-2.5)'
+                                required
+                            />
+                        </div>
+
+
+                        <div> 
+                            <label className = 'block text-sm font-medium text-gray-700 mb-2'>
+                                Annual Income(LPA)
+                            </label>
+                            <input
+                                type = 'number'
+                                name = 'income_lpa'
+                                value = {formData.income_lpa}
+                                onChange = {handleChange}
+                                min = '0'
+                                max = '100'
+                                className = 'w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+                                placeholder = 'Enter your annual income (0-100)'
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label className = 'block text-sm font-medium text-gray-700 mb-2'>
+                                City
+                            </label>
+                            <input
+                                type = 'text'
+                                name = 'city'
+                                value = {formData.city}
+                                onChange = {handleChange}
+                                className = 'w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+                                placeholder = 'Enter your city'
+                                required
+                            />
+                        </div>
+
+
+                        <div>
+                            <label className = 'block text-sm font-medium text-gray-700 mb-2'>
+                                Occupation
+                            </label>
+                            <input
+                                type = 'text'
+                                name = 'occupation'
+                                value = {formData.occupation}
+                                onChange = {handleChange}
+                                className = 'w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+                                placeholder = 'Enter your occupation'
+                                required
+                            />
+                        </div>
                     </div>
                         
                 </div>
