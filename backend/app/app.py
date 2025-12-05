@@ -1,10 +1,20 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from app.schema.user_input import UserInput
 from app.schema.prediction_response import PredictionResponse
 from app.model.predict import predict_output, model, MODEL_VERSION
 
 app = FastAPI()
+
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://localhost:3000"],  # Frontend URLs
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods
+    allow_headers=["*"],  # Allow all headers
+)
 
 # human readable       
 @app.get('/')
@@ -36,11 +46,11 @@ def predict_premium(data: UserInput):
 
         prediction = predict_output(user_input)
 
-        return JSONResponse(status_code=200, content={'response': prediction})
+        return prediction
     
     except Exception as e:
 
-        return JSONResponse(status_code=500, content=str(e))
+        return JSONResponse(status_code=500, content={'error': str(e)})
 
 
 

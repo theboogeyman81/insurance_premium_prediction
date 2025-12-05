@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import ResultDisplay from './ResultDisplay'
 
 export default function PredictionForm() {
     const [formData, setFormData] = useState({
@@ -6,17 +7,58 @@ export default function PredictionForm() {
         weight: '',
         height: '',
         income_lpa: '',
-        smoker: false,
+        smoker: 'False',
         city: '',
         occupation: ''
     })
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(null)
+    const [prediction, setPrediction] = useState(null)
+
 
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target
-        setFormData(prev => ({
-            ...prev,
-            [name]: type === 'checkbox' ? checked : value
-        }))
+        const { name, value, type } = e.target;
+        setFormData({
+          ...formData,
+          [name]: type === 'checkbox' ? e.target.checked : value
+        });
+      };
+
+
+    const handleSubmit = async () => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            const response = await fetch('http://localhost:8000/predict' , {
+                method:'POST',
+                headers:{
+                    'Content-Type' : 'application/json',
+                },
+            body : JSON.stringify({
+                age: parseInt(formData.age),
+                weight: parseFloat(formData.weight),
+                height: parseFloat(formData.height),
+                income_lpa: parseFloat(formData.income_lpa),
+                smoker: formData.smoker === 'True' || formData.smoker === true,
+                city: formData.city,
+                occupation: formData.occupation
+            })
+        });
+        if(!response.ok){
+            throw new Error('Prediction Failed');
+        }
+
+        const data = await response.json();
+        setPrediction(data);
+        setError(null);
+        }
+        catch(err){
+            setError('Failed to get prediction. MAKE SURE BACKEND IS RUNNING');
+            setPrediction(null);
+        }finally{
+            setLoading(false);
+        }
     }
 
     return (
@@ -137,17 +179,44 @@ export default function PredictionForm() {
                             <label className = 'block text-sm font-medium text-gray-700 mb-2'>
                                 Occupation
                             </label>
-                            <input
-                                type = 'text'
+                            <select
                                 name = 'occupation'
                                 value = {formData.occupation}
                                 onChange = {handleChange}
-                                className = 'w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
-                                placeholder = 'Enter your occupation'
+                                className = 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
                                 required
-                            />
+                            >
+                                <option value = ''>Select your occupation</option>
+                                <option value = 'retired'>Retired</option>
+                                <option value = 'freelancer'>Freelancer</option>
+                                <option value = 'student'>Student</option>
+                                <option value = 'government_job'>Government Job</option>
+                                <option value = 'business_owner'>Business Owner</option>
+                                <option value = 'unemployed'>Unemployed</option>
+                                <option value = 'private_job'>Private Job</option>
+                            </select>
                         </div>
+
+                        <button 
+                            onClick={handleSubmit}
+                            disabled = {loading}
+                            className='w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed'
+                        >
+                            {loading ? 'Calculating...' : 'Get Premium Estimate'}
+                        </button>
                     </div>
+
+                    {error && (
+                        <div className="mt-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                            {error}
+                        </div>
+                    )}
+
+                    {prediction && (
+                        <div className="mt-6">
+                            <ResultDisplay prediction={prediction} />
+                        </div>
+                    )}
                         
                 </div>
             </div>
